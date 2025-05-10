@@ -13,7 +13,7 @@ const ProductDashboard = () => {
 
   const fetchListings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/listings");
+      const res = await axios.get("https://producthandlingbackenddata.onrender.com/api/listings");
       setListings(res.data);
     } catch (err) {
       console.error("Error fetching listings:", err);
@@ -26,7 +26,7 @@ const ProductDashboard = () => {
 
   const deleteListing = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/listings/${id}`);
+      await axios.delete(`https://producthandlingbackenddata.onrender.com/api/listings/${id}`);
       fetchListings();
     } catch (err) {
       console.error("Delete failed:", err);
