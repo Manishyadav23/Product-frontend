@@ -12,6 +12,8 @@ const ListingForm = ({ editData, onSuccess, onCancelEdit }) => {
   } = useForm();
 
   const [response, setResponse] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   useEffect(() => {
     if (editData) {
@@ -25,11 +27,13 @@ const ListingForm = ({ editData, onSuccess, onCancelEdit }) => {
   }, [editData, reset, setValue]);
 
   const onSubmit = async (data) => {
+    setIsSubmitting(true);
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("price", data.price);
     formData.append("category", data.category);
     formData.append("subcategory", data.subcategory);
+    console.log(data)
 
     if (!editData) {
       for (let i = 0; i < data.images.length; i++) {
@@ -41,13 +45,13 @@ const ListingForm = ({ editData, onSuccess, onCancelEdit }) => {
       let res;
       if (editData) {
         res = await axios.put(
-          `https://producthandlingbackenddata.onrender.com/api/listings/${editData._id}`,
+          `http://localhost:5000/api/listings/${editData._id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
       } else {
         res = await axios.post(
-          "https://producthandlingbackenddata.onrender.com/api/listings",
+          "http://localhost:5000/api/listings",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -129,12 +133,20 @@ const ListingForm = ({ editData, onSuccess, onCancelEdit }) => {
         )}
 
         <div className="flex justify-between items-center gap-2">
-          <button
+          {/* <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
           >
             {editData ? "Update" : "Submit"}
+          </button> */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition disabled:opacity-50"
+          >
+            {isSubmitting ? "Submitting..." : editData ? "Update" : "Submit"}
           </button>
+
           {editData && (
             <button
               type="button"
