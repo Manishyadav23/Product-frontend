@@ -13,8 +13,9 @@ const ProductDashboard = () => {
 
   const fetchListings = async () => {
     try {
-      const res = await axios.get("https://producthandlingbackenddata.onrender.com/api/listings");
+      const res = await axios.get("http://localhost:5000/api/listings");
       setListings(res.data);
+      console.log(listings,"listings is ");
     } catch (err) {
       console.error("Error fetching listings:", err);
     }
@@ -26,12 +27,15 @@ const ProductDashboard = () => {
 
   const deleteListing = async (id) => {
     try {
-      await axios.delete(`https://producthandlingbackenddata.onrender.com/api/listings/${id}`);
+      await axios.delete(`http://localhost:5000/api/listings/${id}`);
       fetchListings();
+      // console.log(listings,"listings after delete");  
     } catch (err) {
       console.error("Delete failed:", err);
     }
   };
+
+  console.log(listings, "listings after effect");
 
   const categories = [...new Set(listings.map((l) => l.category))];
 
@@ -178,16 +182,33 @@ const ProductDashboard = () => {
               className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-lg transition duration-300 flex flex-col"
             >
               {listing.images?.length > 0 ? (
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={`http://localhost:5000/${listing.images[0]}`}
-                    alt={listing.title}
-                    className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
-                  />
-                  <div className="absolute top-0 right-0 bg-indigo-100 text-indigo-800 m-2 px-2 py-1 rounded-md text-xs font-medium">
-                    {listing.category}
+ 
+                // <div className="relative h-56 overflow-hidden">
+                //   <img
+                //     src={listing.images[0]}
+                //     alt={listing.title}
+                //     className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
+                //   />
+                //   <div className="absolute top-0 right-0 bg-indigo-100 text-indigo-800 m-2 px-2 py-1 rounded-md text-xs font-medium">
+                //     {listing.category}
+                //   </div>
+                // </div>
+                    <div className="relative h-56 overflow-hidden">
+                    <div className="flex h-full overflow-x-auto space-x-2">
+                      {listing.images.map((imgUrl, index) => (
+                        <img
+                          key={index}
+                          src={imgUrl}
+                          alt={`${listing.title}-${index}`}
+                          className="h-full w-auto object-cover rounded-lg flex-shrink-0"
+                        />
+                      ))}
+                    </div>
+                    <div className="absolute top-0 right-0 bg-indigo-100 text-indigo-800 m-2 px-2 py-1 rounded-md text-xs font-medium">
+                      {listing.category}
+                    </div>
                   </div>
-                </div>
+
               ) : (
                 <div className="bg-gray-100 h-56 flex items-center justify-center">
                   <p className="text-gray-400">No image available</p>
