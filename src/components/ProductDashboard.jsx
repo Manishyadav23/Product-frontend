@@ -13,7 +13,7 @@ const ProductDashboard = () => {
 
   const fetchListings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/listings");
+      const res = await axios.get("https://productformhandling.onrender.com/api/listings");
       setListings(res.data);
       console.log(listings,"listings is ");
     } catch (err) {
@@ -27,7 +27,7 @@ const ProductDashboard = () => {
 
   const deleteListing = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/listings/${id}`);
+      await axios.delete(`https://productformhandling.onrender.com/api/listings/${id}`);
       fetchListings();
       // console.log(listings,"listings after delete");  
     } catch (err) {
