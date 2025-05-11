@@ -45,13 +45,13 @@ const ListingForm = ({ editData, onSuccess, onCancelEdit }) => {
       let res;
       if (editData) {
         res = await axios.put(
-          `http://localhost:5000/api/listings/${editData._id}`,
+          `https://productformhandling.onrender.com/api/listings/${editData._id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
       } else {
         res = await axios.post(
-          "http://localhost:5000/api/listings",
+          "https://productformhandling.onrender.com/api/listings",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
